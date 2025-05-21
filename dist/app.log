@@ -1,0 +1,25 @@
+2025-05-21 16:37:01,211 오류 발생: 요소를 찾을 수 없음: Message: no such element: Unable to locate element: {"method":"css selector","selector":"[name="username"]"}
+  (Session info: chrome=136.0.7103.114); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+	GetHandleVerifier [0x00007FF7D2F8CF65+75717]
+	GetHandleVerifier [0x00007FF7D2F8CFC0+75808]
+	(No symbol) [0x00007FF7D2D58F9A]
+	(No symbol) [0x00007FF7D2DAF4C6]
+	(No symbol) [0x00007FF7D2DAF77C]
+	(No symbol) [0x00007FF7D2E02577]
+	(No symbol) [0x00007FF7D2DD73BF]
+	(No symbol) [0x00007FF7D2DFF39C]
+	(No symbol) [0x00007FF7D2DD7153]
+	(No symbol) [0x00007FF7D2DA0421]
+	(No symbol) [0x00007FF7D2DA11B3]
+	GetHandleVerifier [0x00007FF7D328D74D+3223469]
+	GetHandleVerifier [0x00007FF7D3287CF2+3200338]
+	GetHandleVerifier [0x00007FF7D32A5B23+3322755]
+	GetHandleVerifier [0x00007FF7D2FA6A3A+180890]
+	GetHandleVerifier [0x00007FF7D2FAE13F+211359]
+	GetHandleVerifier [0x00007FF7D2F952B4+109332]
+	GetHandleVerifier [0x00007FF7D2F95462+109762]
+	GetHandleVerifier [0x00007FF7D2F7BA79+4825]
+	BaseThreadInitThunk [0x00007FFBD30FE8D7+23]
+	RtlUserThreadStart [0x00007FFBD48BC5DC+44]
+

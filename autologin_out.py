@@ -2,9 +2,10 @@ import sys
 import json
 import logging
 import os
+import time
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton,
-    QMessageBox, QTextEdit, QHBoxLayout
+    QMessageBox, QTextEdit
 )
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -79,7 +80,7 @@ class AutoWorker(QWidget):
         self.log_output.append(msg)
 
     def show_error(self, msg):
-        self.log(f"오류 발생: {msg}")
+        self.log(f"❌ {msg}")
         QMessageBox.critical(self, '오류', msg)
 
     def save_credentials(self):
@@ -94,7 +95,9 @@ class AutoWorker(QWidget):
     def init_driver(self):
         try:
             options = Options()
-            options.add_argument('--headless')
+            options.add_argument('--headless')  # 필요 없으면 지워도 됨
+            options.add_argument('--no-sandbox')
+            options.add_argument('--disable-dev-shm-usage')
             self.driver = webdriver.Chrome(options=options)
             self.driver.implicitly_wait(10)
         except WebDriverException as e:
@@ -109,40 +112,56 @@ class AutoWorker(QWidget):
             creds = load_credentials()
             self.driver.get('https://monthlykitchen.dooray.com/work-schedule/user/register-month')
 
-            if '로그인' in self.driver.page_source:
-                self.driver.find_element(By.NAME, 'username').send_keys(creds['id'])
-                self.driver.find_element(By.NAME, 'password').send_keys(creds['pw'])
-                self.driver.find_element(By.TAG_NAME, 'button').click()
+            # 로그인 필요 시 자동 로그인 시도
+            if 'login' in self.driver.current_url or '로그인' in self.driver.title:
+                self.log('🔐 로그인 시도 중...')
+                try:
+                    self.driver.find_element(By.NAME, 'username').send_keys(creds['id'])
+                    self.driver.find_element(By.NAME, 'password').send_keys(creds['pw'])
+                    self.driver.find_element(By.TAG_NAME, 'button').click()
+                    self.log('✅ 로그인 시도 완료')
+                    time.sleep(3)  # 로그인 후 리디렉션 대기
+                except NoSuchElementException:
+                    self.show_error('로그인 폼을 찾을 수 없습니다. 수동 로그인 후 다시 시도하세요.')
+                    return
 
+            # 출근/퇴근 버튼 클릭
             if action == '출근하기':
                 el = self.driver.find_element(By.XPATH, "//span[text()='출근하기']/parent::button")
                 if el.is_enabled():
                     el.click()
-                    self.log('출근 버튼 클릭 완료')
+                    self.log('✅ 출근 버튼 클릭 완료')
                 else:
-                    self.log('출근 버튼이 비활성화 상태입니다')
+                    self.log('⚠️ 출근 버튼이 비활성화 상태입니다')
 
             elif action == '퇴근하기':
                 el = self.driver.find_element(By.XPATH, "//span[text()='퇴근하기']/parent::button")
                 if el.is_enabled():
                     el.click()
-                    self.log('퇴근 버튼 클릭 완료')
+                    self.log('✅ 퇴근 버튼 클릭 완료')
                 else:
-                    self.log('퇴근 버튼이 비활성화 상태입니다')
+                    self.log('⚠️ 퇴근 버튼이 비활성화 상태입니다')
 
         except NoSuchElementException as e:
-            self.show_error(f"요소를 찾을 수 없음: {str(e)}")
+            error_msg = f"❌ 요소를 찾을 수 없음: {str(e)}"
+            self.log(error_msg)
+            self.show_error(error_msg)
+
         except Exception as e:
-            self.show_error(f"자동화 오류: {str(e)}")
+            error_msg = f"❌ 자동화 오류: {str(e)}"
+            self.log(error_msg)
+            self.show_error(error_msg)
+
         finally:
             if self.driver:
                 self.driver.quit()
+                self.log("🧹 브라우저 세션 종료")
 
     def reset_and_retry(self):
-        self.log('초기화 후 재시도 시작')
+        self.log('🔄 초기화 후 재시도 시작')
         if self.driver:
             self.driver.quit()
-        self.run_automation('출근하기')  # 기본은 출근으로 시도
+        self.run_automation('출근하기')  # 기본은 출근으로 재시도
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
