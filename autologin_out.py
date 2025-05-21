@@ -69,10 +69,6 @@ class AutoWorker(QWidget):
         layout.addWidget(QLabel('로그 출력'))
         layout.addWidget(self.log_output)
 
-        retry_btn = QPushButton('문제 발생 시 초기화 후 재시도')
-        retry_btn.clicked.connect(self.reset_and_retry)
-        layout.addWidget(retry_btn)
-
         self.setLayout(layout)
 
     def log(self, msg):
@@ -155,12 +151,6 @@ class AutoWorker(QWidget):
             if self.driver:
                 self.driver.quit()
                 self.log("🧹 브라우저 세션 종료")
-
-    def reset_and_retry(self):
-        self.log('🔄 초기화 후 재시도 시작')
-        if self.driver:
-            self.driver.quit()
-        self.run_automation('출근하기')  # 기본은 출근으로 재시도
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
