@@ -11,11 +11,10 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import WebDriverException, NoSuchElementException
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
-# 로그인 정보 저장 파일
 CREDENTIAL_FILE = 'credentials.json'
-
-# 로깅 설정
 logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s %(message)s')
 
 def load_credentials():
@@ -91,9 +90,11 @@ class AutoWorker(QWidget):
     def init_driver(self):
         try:
             options = Options()
+            # options.add_argument('--headless')  # 창 보이게 할 때는 주석처리
             options.add_argument('--no-sandbox')
             options.add_argument('--disable-dev-shm-usage')
-            self.driver = webdriver.Chrome(options=options)
+            service = Service(ChromeDriverManager().install())
+            self.driver = webdriver.Chrome(service=service, options=options)
             self.driver.implicitly_wait(10)
         except WebDriverException as e:
             self.show_error(f"ChromeDriver 오류: {str(e)}")
@@ -107,7 +108,7 @@ class AutoWorker(QWidget):
             creds = load_credentials()
             self.driver.get('https://monthlykitchen.dooray.com/work-schedule/user/register-month')
 
-            # 로그인 페이지면 자동 로그인 시도
+            # 로그인 필요 시 자동 로그인 시도
             if 'login' in self.driver.current_url or '로그인' in self.driver.title:
                 self.log('🔐 로그인 시도 중...')
                 try:
@@ -115,7 +116,7 @@ class AutoWorker(QWidget):
                     self.driver.find_element(By.CSS_SELECTOR, "input[title='비밀번호']").send_keys(creds['pw'])
                     self.driver.find_element(By.CSS_SELECTOR, "button.submit-button.blue").click()
                     self.log('✅ 로그인 시도 완료')
-                    time.sleep(3)  # 로그인 후 페이지 로딩 대기
+                    time.sleep(3)
                 except NoSuchElementException:
                     self.show_error('❌ 로그인 폼을 찾을 수 없습니다. 로그인 방식이 변경되었을 수 있습니다.')
                     return
@@ -158,3 +159,4 @@ if __name__ == '__main__':
     window.resize(500, 600)
     window.show()
     sys.exit(app.exec_())
+    
