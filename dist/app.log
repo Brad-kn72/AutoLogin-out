@@ -52,3 +52,11 @@ Stacktrace:
 2025-05-21 17:22:39,473 \u2705 로그인 시도 완료
 2025-05-21 17:22:42,498 \u26a0\ufe0f 출근 버튼이 비활성화 상태입니다
 2025-05-21 17:22:44,734 \U0001f9f9 브라우저 세션 종료
+2025-05-21 18:01:27,957 ====== WebDriver manager ======
+2025-05-21 18:01:29,528 Get LATEST chromedriver version for google-chrome
+2025-05-21 18:01:29,586 Get LATEST chromedriver version for google-chrome
+2025-05-21 18:01:29,602 Driver [C:\Users\monthlykitchen\.wdm\drivers\chromedriver\win64\136.0.7103.94\chromedriver-win32/chromedriver.exe] found in cache
+2025-05-21 18:01:32,465 \U0001f510 로그인 시도 중...
+2025-05-21 18:01:33,110 \u2705 로그인 시도 완료
+2025-05-21 18:01:36,197 \u2705 퇴근 버튼 클릭 완료
+2025-05-21 18:01:38,407 \U0001f9f9 브라우저 세션 종료
