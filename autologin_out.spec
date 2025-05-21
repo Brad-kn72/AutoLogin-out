@@ -23,7 +23,7 @@ exe = EXE(
     a.datas,
     uac_admin=True,
     [],
-    name='autologin_out',
+    name='딸깍이(출퇴근자동화)',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
