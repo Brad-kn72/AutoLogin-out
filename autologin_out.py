@@ -95,7 +95,6 @@ class AutoWorker(QWidget):
     def init_driver(self):
         try:
             options = Options()
-            options.add_argument('--headless')  # 필요 없으면 지워도 됨
             options.add_argument('--no-sandbox')
             options.add_argument('--disable-dev-shm-usage')
             self.driver = webdriver.Chrome(options=options)
@@ -112,17 +111,17 @@ class AutoWorker(QWidget):
             creds = load_credentials()
             self.driver.get('https://monthlykitchen.dooray.com/work-schedule/user/register-month')
 
-            # 로그인 필요 시 자동 로그인 시도
+            # 로그인 페이지면 자동 로그인 시도
             if 'login' in self.driver.current_url or '로그인' in self.driver.title:
                 self.log('🔐 로그인 시도 중...')
                 try:
-                    self.driver.find_element(By.NAME, 'username').send_keys(creds['id'])
-                    self.driver.find_element(By.NAME, 'password').send_keys(creds['pw'])
-                    self.driver.find_element(By.TAG_NAME, 'button').click()
+                    self.driver.find_element(By.CSS_SELECTOR, "input[title='아이디']").send_keys(creds['id'])
+                    self.driver.find_element(By.CSS_SELECTOR, "input[title='비밀번호']").send_keys(creds['pw'])
+                    self.driver.find_element(By.CSS_SELECTOR, "button.submit-button.blue").click()
                     self.log('✅ 로그인 시도 완료')
-                    time.sleep(3)  # 로그인 후 리디렉션 대기
+                    time.sleep(3)  # 로그인 후 페이지 로딩 대기
                 except NoSuchElementException:
-                    self.show_error('로그인 폼을 찾을 수 없습니다. 수동 로그인 후 다시 시도하세요.')
+                    self.show_error('❌ 로그인 폼을 찾을 수 없습니다. 로그인 방식이 변경되었을 수 있습니다.')
                     return
 
             # 출근/퇴근 버튼 클릭
