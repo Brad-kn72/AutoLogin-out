@@ -60,3 +60,18 @@ Stacktrace:
 2025-05-21 18:01:33,110 \u2705 로그인 시도 완료
 2025-05-21 18:01:36,197 \u2705 퇴근 버튼 클릭 완료
 2025-05-21 18:01:38,407 \U0001f9f9 브라우저 세션 종료
+2025-05-22 08:50:41,166 ====== WebDriver manager ======
+2025-05-22 08:50:43,344 Get LATEST chromedriver version for google-chrome
+2025-05-22 08:50:43,405 Get LATEST chromedriver version for google-chrome
+2025-05-22 08:50:43,419 There is no [win64] chromedriver "136.0.7103.113" for browser google-chrome "136.0.7103" in cache
+2025-05-22 08:50:43,419 Get LATEST chromedriver version for google-chrome
+2025-05-22 08:50:43,467 WebDriver version 136.0.7103.113 selected
+2025-05-22 08:50:43,471 Modern chrome version https://storage.googleapis.com/chrome-for-testing-public/136.0.7103.113/win32/chromedriver-win32.zip
+2025-05-22 08:50:43,472 About to download new driver from https://storage.googleapis.com/chrome-for-testing-public/136.0.7103.113/win32/chromedriver-win32.zip
+2025-05-22 08:50:43,549 Driver downloading response is 200
+2025-05-22 08:50:43,682 Get LATEST chromedriver version for google-chrome
+2025-05-22 08:50:43,831 Driver has been saved in cache [C:\Users\monthlykitchen\.wdm\drivers\chromedriver\win64\136.0.7103.113]
+2025-05-22 08:50:47,979 \U0001f510 로그인 시도 중...
+2025-05-22 08:50:48,584 \u2705 로그인 시도 완료
+2025-05-22 08:50:51,676 \u2705 출근 버튼 클릭 완료
+2025-05-22 08:50:53,888 \U0001f9f9 브라우저 세션 종료
